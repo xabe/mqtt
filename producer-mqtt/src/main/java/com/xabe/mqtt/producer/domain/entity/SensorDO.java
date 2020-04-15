@@ -20,4 +20,6 @@ public class SensorDO {
 
   private String unit;
 
+  private long timestamp;
+
 }

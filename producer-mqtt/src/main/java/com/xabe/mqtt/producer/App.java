@@ -11,6 +11,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -27,11 +28,13 @@ public class App {
     SLF4JBridgeHandler.install();
     java.util.logging.Logger.getLogger("global").setLevel(Level.ALL);
     Runtime.getRuntime().addShutdownHook(new Thread(() -> server.shutdownNow()));
+    final Logger logger = LoggerFactory.getLogger(App.class);
+    logger.info("Start Grizzly");
     final ResourceConfig rc = new CustomResourceConfig();
     server = GrizzlyHttpServerFactory.createHttpServer(URI.create(getUriInfo("http", config.getInt("server.port"))), rc, false);
     server.getServerConfiguration().setAllowPayloadForUndefinedHttpMethods(true);
     server.start();
-    LoggerFactory.getLogger(App.class).info("Stop the application using CTRL+C");
+    logger.info("Stop the application using CTRL+C");
     Thread.currentThread().join();
   }
 

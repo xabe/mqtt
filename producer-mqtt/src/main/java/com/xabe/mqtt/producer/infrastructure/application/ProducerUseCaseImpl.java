@@ -36,6 +36,6 @@ public class ProducerUseCaseImpl implements ProducerUseCase {
   }
 
   private SensorDO mapper(final SensorPayload payload) {
-    return SensorDO.builder().unit(payload.getUnit().name()).value(payload.getValue()).build();
+    return SensorDO.builder().unit(payload.getUnit().name()).value(payload.getValue()).timestamp(payload.getTimestamp()).build();
   }
 }

@@ -24,4 +24,6 @@ public class SensorPayload {
   @NotNull
   private UnitType unit;
 
+  private long timestamp;
+
 }

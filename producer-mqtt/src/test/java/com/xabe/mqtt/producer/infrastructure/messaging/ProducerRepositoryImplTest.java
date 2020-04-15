@@ -46,7 +46,7 @@ class ProducerRepositoryImplTest {
 
   @Test
   public void shouldSendMessageSensorTemperature() throws Exception {
-    final SensorDO sensorDO = SensorDO.builder().unit("CELSIUS").value("10").build();
+    final SensorDO sensorDO = SensorDO.builder().unit("CELSIUS").value("10").timestamp(System.currentTimeMillis()).build();
     final ArgumentCaptor<MqttMessage> argumentCaptor = ArgumentCaptor.forClass(MqttMessage.class);
 
     when(this.config.getInt(eq(ProducerRepositoryImpl.MQTT_TEMPERATURE_QOS))).thenReturn(2);
@@ -63,7 +63,7 @@ class ProducerRepositoryImplTest {
 
   @Test
   public void shouldSendMessageSensorHumidity() throws Exception {
-    final SensorDO sensorDO = SensorDO.builder().unit("HUMIDITY").value("10").build();
+    final SensorDO sensorDO = SensorDO.builder().unit("HUMIDITY").value("10").timestamp(System.currentTimeMillis()).build();
     final ArgumentCaptor<MqttMessage> argumentCaptor = ArgumentCaptor.forClass(MqttMessage.class);
 
     when(this.config.getInt(eq(ProducerRepositoryImpl.MQTT_HUMIDITY_QOS))).thenReturn(1);

@@ -25,20 +25,20 @@ class ProducerUseCaseImplTest {
 
   @Test
   public void sendSensorTemperature() throws Exception {
-    final SensorPayload sensorPayload = SensorPayload.builder().unit(UnitType.FAHRENHEIT).value("3").build();
+    final SensorPayload sensorPayload = SensorPayload.builder().unit(UnitType.FAHRENHEIT).value("3").timestamp(2L).build();
 
     this.producerUseCase.sendSensorTemperature(sensorPayload);
 
-    verify(this.producerRepository).sendTemperature(eq(SensorDO.builder().value("3").unit("FAHRENHEIT").build()));
+    verify(this.producerRepository).sendTemperature(eq(SensorDO.builder().value("3").unit("FAHRENHEIT").timestamp(2L).build()));
   }
 
   @Test
   public void sendSensorHumidity() throws Exception {
-    final SensorPayload sensorPayload = SensorPayload.builder().unit(UnitType.FAHRENHEIT).value("3").build();
+    final SensorPayload sensorPayload = SensorPayload.builder().unit(UnitType.FAHRENHEIT).value("3").timestamp(4L).build();
 
     this.producerUseCase.sendSensorHumidity(sensorPayload);
 
-    verify(this.producerRepository).sendHumidity(eq(SensorDO.builder().value("3").unit("FAHRENHEIT").build()));
+    verify(this.producerRepository).sendHumidity(eq(SensorDO.builder().value("3").unit("FAHRENHEIT").timestamp(4L).build()));
   }
 
 }

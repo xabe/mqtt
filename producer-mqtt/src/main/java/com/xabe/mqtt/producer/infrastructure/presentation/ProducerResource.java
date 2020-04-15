@@ -2,6 +2,7 @@ package com.xabe.mqtt.producer.infrastructure.presentation;
 
 import com.xabe.mqtt.producer.infrastructure.application.ProducerUseCase;
 import com.xabe.mqtt.producer.infrastructure.presentation.payload.SensorPayload;
+import java.time.Clock;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.Valid;
@@ -26,10 +27,13 @@ public class ProducerResource {
 
   private final ProducerUseCase producerUseCase;
 
+  private final Clock clock;
+
   @POST
   @Path("/temperature")
   public Response createSensorTemperature(@Valid final SensorPayload sensorPayload) {
-    this.producerUseCase.sendSensorTemperature(sensorPayload);
+    final long timestamp = sensorPayload.getTimestamp() <= 0 ? this.clock.millis() : sensorPayload.getTimestamp();
+    this.producerUseCase.sendSensorTemperature(sensorPayload.toBuilder().timestamp(timestamp).build());
     this.logger.info("send sensor temperature {}", sensorPayload);
     return Response.noContent().build();
   }
@@ -37,7 +41,8 @@ public class ProducerResource {
   @POST
   @Path("/humidity")
   public Response createSensorHumidity(@Valid final SensorPayload sensorPayload) {
-    this.producerUseCase.sendSensorHumidity(sensorPayload);
+    final long timestamp = sensorPayload.getTimestamp() <= 0 ? this.clock.millis() : sensorPayload.getTimestamp();
+    this.producerUseCase.sendSensorHumidity(sensorPayload.toBuilder().timestamp(timestamp).build());
     this.logger.info("send sensor humidity {}", sensorPayload);
     return Response.noContent().build();
   }

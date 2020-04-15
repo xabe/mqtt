@@ -19,16 +19,16 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MqttProcessor implements MqttCallback {
+public class MqttConsumer implements MqttCallback {
 
   private final BlockingQueue<Message> messagesPipe = new ArrayBlockingQueue<>(100);
 
-  private final Logger logger = LoggerFactory.getLogger(MqttProcessor.class);
+  private final Logger logger = LoggerFactory.getLogger(MqttConsumer.class);
 
-  public MqttProcessor(final Config config) {
+  public MqttConsumer(final Config config) {
     final IMqttClient mqttClient;
     try {
-      mqttClient = new MqttClient(config.getString("mqtt.temperature.broker"), "test-producer", new MemoryPersistence());
+      mqttClient = new MqttClient(config.getString("mqtt.temperature.broker"), "test-consumer", new MemoryPersistence());
       final MqttConnectOptions connOpts = new MqttConnectOptions();
       connOpts.setCleanSession(true);
       connOpts.setKeepAliveInterval(30);
@@ -38,9 +38,9 @@ public class MqttProcessor implements MqttCallback {
       mqttClient.setCallback(this);
       mqttClient.subscribe(config.getString(ProducerRepositoryImpl.MQTT_TEMPERATURE_TOPIC));
       mqttClient.subscribe(config.getString(ProducerRepositoryImpl.MQTT_HUMIDITY_TOPIC));
-      this.logger.info("Create MqttProcessor");
+      this.logger.info("Create MqttConsumer");
     } catch (final MqttException e) {
-      this.logger.error("Error create MqttProcessor ", e);
+      this.logger.error("Error create MqttConsumer ", e);
       throw new RuntimeException(e);
     }
   }

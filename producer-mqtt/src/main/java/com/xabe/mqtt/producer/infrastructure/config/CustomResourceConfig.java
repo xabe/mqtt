@@ -6,6 +6,8 @@ import com.xabe.mqtt.producer.domain.repository.ProducerRepository;
 import com.xabe.mqtt.producer.infrastructure.application.ProducerUseCase;
 import com.xabe.mqtt.producer.infrastructure.application.ProducerUseCaseImpl;
 import com.xabe.mqtt.producer.infrastructure.messaging.ProducerRepositoryImpl;
+import java.time.Clock;
+import javax.inject.Singleton;
 import javax.ws.rs.ApplicationPath;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -38,10 +40,11 @@ public class CustomResourceConfig extends ResourceConfig {
     this.register(new AbstractBinder() {
       @Override
       protected void configure() {
-        this.bind(ProducerUseCaseImpl.class).to(ProducerUseCase.class);
-        this.bind(ProducerRepositoryImpl.class).to(ProducerRepository.class);
+        this.bind(ProducerUseCaseImpl.class).to(ProducerUseCase.class).in(Singleton.class);
+        this.bind(ProducerRepositoryImpl.class).to(ProducerRepository.class).in(Singleton.class);
         this.bind(mqttClient).to(IMqttClient.class);
         this.bind(config).to(Config.class);
+        this.bind(Clock.systemUTC()).to(Clock.class);
       }
     });
     this.property(ServerProperties.BV_FEATURE_DISABLE, false);
