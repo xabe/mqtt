@@ -30,5 +30,7 @@ build/
 ### VS Code ###
 .vscode/
 
+./mosquitto/data/mosquitto.db
+./mosquitto/log/mosquitto.log
 ./mosquitto/log/**
 ./mosquitto/data/**
