@@ -24,7 +24,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 @TestInstance(Lifecycle.PER_CLASS)
 public class EventsProcessingIT {
 
-  private static final long DEFAULT_TIMEOUT = 3000;
+  private static final long DEFAULT_TIMEOUT_MS = 3000;
 
   private final Config config = ConfigFactory.load();
 
@@ -48,7 +48,7 @@ public class EventsProcessingIT {
     assertThat(response, is(notNullValue()));
     assertThat(response.getStatus(), is(204));
 
-    final Message result = this.mqttConsumer.expectMessagePipe(DEFAULT_TIMEOUT);
+    final Message result = this.mqttConsumer.expectMessagePipe(DEFAULT_TIMEOUT_MS);
     assertThat(result, is(notNullValue()));
     assertThat(result.getTopic(), is(this.config.getString(ProducerRepositoryImpl.MQTT_TEMPERATURE_TOPIC)));
     assertThat(new String(result.getMqttMessage().getPayload(), StandardCharsets.UTF_8), is(this.gson.toJson(sensorPayload)));
@@ -65,7 +65,7 @@ public class EventsProcessingIT {
     assertThat(response, is(notNullValue()));
     assertThat(response.getStatus(), is(204));
 
-    final Message result = this.mqttConsumer.expectMessagePipe(DEFAULT_TIMEOUT);
+    final Message result = this.mqttConsumer.expectMessagePipe(DEFAULT_TIMEOUT_MS);
     assertThat(result, is(notNullValue()));
     assertThat(result.getTopic(), is(this.config.getString(ProducerRepositoryImpl.MQTT_HUMIDITY_TOPIC)));
     assertThat(new String(result.getMqttMessage().getPayload(), StandardCharsets.UTF_8), is(this.gson.toJson(sensorPayload)));

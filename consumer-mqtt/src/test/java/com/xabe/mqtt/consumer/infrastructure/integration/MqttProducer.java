@@ -45,6 +45,7 @@ public class MqttProducer {
       this.objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
       this.objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
       this.objectMapper.configure(JsonParser.Feature.STRICT_DUPLICATE_DETECTION, true);
+      this.objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
       this.objectMapper.setSerializationInclusion(Include.NON_NULL);
       this.logger.info("Create MqttProducer");
     } catch (final MqttException e) {

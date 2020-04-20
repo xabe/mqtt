@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 public class MqttConsumer implements MqttCallback {
 
-  private final BlockingQueue<Message> messagesPipe = new ArrayBlockingQueue<>(100);
+  private final BlockingQueue<Message> messagesMqtt = new ArrayBlockingQueue<>(100);
 
   private final Logger logger = LoggerFactory.getLogger(MqttConsumer.class);
 
@@ -52,17 +52,17 @@ public class MqttConsumer implements MqttCallback {
 
   private void processMessage(final Message message) throws InterruptedException {
     this.logger.info("Event received from topic {} and message {}", message.getTopic(), message.getMqttMessage());
-    if (!this.messagesPipe.offer(message, 1, TimeUnit.SECONDS)) {
+    if (!this.messagesMqtt.offer(message, 1, TimeUnit.SECONDS)) {
       this.logger.warn("Adding {} to messagesPipe timed out", message);
     }
   }
 
   public void before() {
-    this.messagesPipe.clear();
+    this.messagesMqtt.clear();
   }
 
   public <T> Message expectMessagePipe(final long milliseconds) throws InterruptedException {
-    final Message message = this.messagesPipe.poll(milliseconds, TimeUnit.MILLISECONDS);
+    final Message message = this.messagesMqtt.poll(milliseconds, TimeUnit.MILLISECONDS);
     if (message == null) {
       throw new RuntimeException("An exception happened while polling the queue ");
     }

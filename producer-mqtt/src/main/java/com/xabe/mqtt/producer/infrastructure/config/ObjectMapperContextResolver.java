@@ -1,5 +1,6 @@
 package com.xabe.mqtt.producer.infrastructure.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +19,8 @@ public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper
     this.mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     this.mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
     this.mapper.configure(JsonParser.Feature.STRICT_DUPLICATE_DETECTION, true);
+    this.mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+    this.mapper.setSerializationInclusion(Include.NON_NULL);
   }
 
   @Override

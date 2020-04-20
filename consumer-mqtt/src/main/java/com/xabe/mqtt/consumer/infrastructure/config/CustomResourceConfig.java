@@ -1,5 +1,6 @@
 package com.xabe.mqtt.consumer.infrastructure.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,9 +11,9 @@ import com.typesafe.config.ConfigFactory;
 import com.xabe.mqtt.consumer.domain.repository.ConsumerRepository;
 import com.xabe.mqtt.consumer.infrastructure.application.ConsumerUseCase;
 import com.xabe.mqtt.consumer.infrastructure.application.ConsumerUseCaseImpl;
-import com.xabe.mqtt.consumer.infrastructure.messaging.handler.HumidityHandler;
 import com.xabe.mqtt.consumer.infrastructure.messaging.MqttHandler;
 import com.xabe.mqtt.consumer.infrastructure.messaging.MqttProcessor;
+import com.xabe.mqtt.consumer.infrastructure.messaging.handler.HumidityHandler;
 import com.xabe.mqtt.consumer.infrastructure.messaging.handler.TemperatureHandler;
 import com.xabe.mqtt.consumer.infrastructure.persistence.InMemoryConsumerRepository;
 import javax.inject.Inject;
@@ -55,6 +56,7 @@ public class CustomResourceConfig extends ResourceConfig {
     objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
     objectMapper.configure(JsonParser.Feature.STRICT_DUPLICATE_DETECTION, true);
     objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+    objectMapper.setSerializationInclusion(Include.NON_NULL);
     this.packages(true, "com.xabe.mqtt.consumer.infrastructure.presentation");
     this.register(JacksonFeature.class);
     this.register(new LoggingFeature());
