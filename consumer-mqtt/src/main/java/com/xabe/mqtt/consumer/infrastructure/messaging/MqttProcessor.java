@@ -35,7 +35,7 @@ public class MqttProcessor implements MqttCallback {
 
     @Override
     public void handler(final MqttMessage mqttMessage) {
-      logger.warn("Not handler for message", mqttMessage);
+      logger.warn("Not handler for message {}", mqttMessage);
     }
   };
 
