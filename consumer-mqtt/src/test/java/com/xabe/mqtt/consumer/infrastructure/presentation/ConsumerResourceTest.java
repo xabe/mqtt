@@ -40,7 +40,7 @@ class ConsumerResourceTest {
     assertThat(result, is(notNullValue()));
     assertThat(result.getStatus(), is(HttpStatus.SC_OK));
     assertThat(result.getEntity(),
-        is(Collections.singletonList(SensorPayload.builder().unit(UnitType.CELSIUS).value("10").instant(instant).build())));
+        is(Collections.singletonList(SensorPayload.builder().unit(UnitType.CELSIUS).value("10").instant(Instant.ofEpochMilli(instant.toEpochMilli())).build())));
   }
 
   @Test
@@ -54,7 +54,7 @@ class ConsumerResourceTest {
     assertThat(result, is(notNullValue()));
     assertThat(result.getStatus(), is(HttpStatus.SC_OK));
     assertThat(result.getEntity(),
-        is(Collections.singletonList(SensorPayload.builder().unit(UnitType.CELSIUS).value("10").instant(instant).build())));
+        is(Collections.singletonList(SensorPayload.builder().unit(UnitType.CELSIUS).value("10").instant(Instant.ofEpochMilli(instant.toEpochMilli())).build())));
   }
 
 }
